@@ -15,68 +15,12 @@ board_columns = 7
 radius = 50
 centers = []
 assign = {}
-#for i in range(board_rows):#
-    #for j in range(board_columns):
-    #    centers.append((step_width_vector[j],step_width_vector[i],color['WHITE']))
-
-for i in range(len(step_width_vector)):
-    assign[step_width_vector[i]] = i
 
 for i in range(board_rows):
     for j in range(board_columns):
-        centers.append((step_width_vector[j],step_width_vector[i]))
+        centers.append((step_width_vector[j],step_width_vector[i],color['WHITE']))
 
-#Backend#
-class Game_backend:
-    def __init__(self):
-        self.board=np.zeros((12,13))
-        self.board[(0,1,2),:]=np.nan
-        self.board[(11,10,9),:]=np.nan
-        self.board[:,(0,1,2)]=np.nan
-        self.board[:,(12,11,10)]=np.nan
 
-        self.scoreboard=np.zeros((2,12,13))
-        self.scoreboard[:,(0,1,2),:]=np.nan
-        self.scoreboard[:,(11,10,9),:]=np.nan
-        self.scoreboard[:,:,(0,1,2)]=np.nan
-        self.scoreboard[:,:,(12,11,10)]=np.nan
-
-    def update_board(self,rad,drag):
-        if np.isnan(self.board[rad+1,drag]):
-            self.board[rad,drag]=np.nan
-            return rad
-        else:
-            return game.update_board(rad+1,drag)
-
-    def update_scoreboard(self,player,rad,drag):
-        if player=='sulan':
-            print 'sulans tur'
-            self.scoreboard[0,rad,drag]=1
-        elif player=='anton':
-            print 'antons tur'
-            self.scoreboard[1,rad,drag]=1
-
-game_backend = Game_backend()
-#print game_backend.board
-#print game_backend.board[3:9,3:10]
-
-'''
-while done==0:
-    Current_player=players[0]
-    Current_column=int(raw_input('drag(0-6):'))+3
-    Current_row=game.update_board(3,Current_column)
-    game.update_scoreboard(Current_player,Current_row,Current_column)
-    print game.scoreboard[:,3:9,3:10]
-
-    if (game.check_row(Current_player,Current_row,Current_column) or
-        game.check_column(Current_player,Current_row,Current_column) or
-        game.check_diagonal(Current_player,Current_row,Current_column)):
-        done=1
-        print 'vann!'
-        print game.scoreboard[:,3:9,3:10]
-
-    players[0],players[1]=players[1],players[0]
-'''
 
 #Frontend functions#
 def check_event_position(list_of_tuples,position,rad):
@@ -84,25 +28,13 @@ def check_event_position(list_of_tuples,position,rad):
     for cen in list_of_tuples:
         if math.pow(position[0] - cen[0],2) + math.pow(position[1] - cen[1],2) <= math.pow(rad,2):
             #return True
-            print cen
+            #print cen
 
             new_centers.append((cen[0],cen[1],color['GREEN']))
         else:
             #return False
             new_centers.append((cen[0],cen[1],cen[2]))
     return new_centers
-
-'''
-def check_event_position(list_of_tuples,position,rad):
-    new_centers = []
-    for cen in list_of_tuples:
-        if math.pow(position[0] - cen[0],2) + math.pow(position[1] - cen[1],2) <= math.pow(rad,2):
-            return True
-        else:
-            return False
-'''
-#def assign_board_to_backend():
-
 
 #Main#
 pygame.init()
